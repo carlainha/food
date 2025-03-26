@@ -14,7 +14,7 @@ public class CidadeRepositoryImpl implements CidadeRepository {
     private EntityManager manager;
 
     @Override
-    public List<Cidade> listar(Long id) {
+    public List<Cidade> listar() {
         return manager.createQuery("from Cidade",Cidade.class).getResultList();
     }
 
