@@ -4,6 +4,7 @@ import com.carol.food.domain.model.Estado;
 import com.carol.food.domain.repository.EstadoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,16 +21,19 @@ public class EstadoRepositoryImpl implements EstadoRepository {
 
     @Override
     public Estado buscar(Long id) {
-        return null;
+        return manager.find(Estado.class, id);
     }
 
+    @Transactional
     @Override
     public Estado salvar(Estado estado) {
-        return null;
+        return manager.merge(estado);
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
-
+        Estado estado = buscar(id);
+        manager.remove(id);
     }
 }

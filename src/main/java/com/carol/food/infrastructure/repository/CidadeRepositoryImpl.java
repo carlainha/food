@@ -4,6 +4,7 @@ import com.carol.food.domain.model.Cidade;
 import com.carol.food.domain.repository.CidadeRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,16 +21,19 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 
     @Override
     public Cidade buscar(Long id) {
-        return null;
+        return manager.find(Cidade.class, id);
     }
 
+    @Transactional
     @Override
     public Cidade salvar(Cidade cidade) {
-        return null;
+        return manager.merge(cidade);
     }
 
+    @Transactional
     @Override
     public void remover(Long id) {
-
+        Cidade cidade = buscar(id);
+        manager.remove(cidade);
     }
 }
