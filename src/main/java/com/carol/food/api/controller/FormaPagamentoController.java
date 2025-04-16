@@ -3,6 +3,7 @@ package com.carol.food.api.controller;
 import com.carol.food.domain.model.FormaPagamento;
 import com.carol.food.domain.repository.FormaPagamentoRepository;
 import com.carol.food.domain.service.FormaPagamentoService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,18 @@ public class FormaPagamentoController {
     @ResponseStatus(HttpStatus.CREATED)
     public FormaPagamento adicionar(@RequestBody FormaPagamento formaPagamento){
         return formaPagamentoService.salvar(formaPagamento);
+    }
+
+    @PutMapping("/{formapagamentoId}")
+    public ResponseEntity<FormaPagamento> atualizar(@PathVariable Long formapagamentoId,@RequestBody FormaPagamento formaPagamento){
+        FormaPagamento formaPagamentoAtual = formaPagamentoRepository.buscar(formapagamentoId);
+
+        if (formaPagamentoAtual != null){
+            BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual,"id");
+
+            formaPagamentoAtual = formaPagamentoService.salvar(formaPagamentoAtual);
+            return ResponseEntity.ok(formaPagamentoAtual);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

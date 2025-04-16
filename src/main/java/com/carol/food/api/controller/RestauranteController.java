@@ -1,8 +1,10 @@
 package com.carol.food.api.controller;
 
+import com.carol.food.domain.model.Cozinha;
 import com.carol.food.domain.model.Restaurante;
 import com.carol.food.domain.repository.RestauranteRepository;
 import com.carol.food.domain.service.RestauranteService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +41,18 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.CREATED)
     public Restaurante adicionar(@RequestBody Restaurante restaurante){
         return restauranteService.salvar(restaurante);
+    }
+
+    @PutMapping("/{restauranteId}")
+    public ResponseEntity<Restaurante> atualizar(@PathVariable Long restauranteId,@RequestBody Restaurante restaurante){
+        Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
+
+        if (restauranteAtual != null){
+            BeanUtils.copyProperties(restaurante,restauranteAtual, "id");
+
+            restauranteAtual = restauranteRepository.salvar(restauranteAtual);
+            return ResponseEntity.ok(restauranteAtual);
+        }
+        return ResponseEntity.notFound().build();
     }
 }
