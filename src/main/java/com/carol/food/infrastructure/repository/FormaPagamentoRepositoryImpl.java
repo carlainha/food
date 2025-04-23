@@ -5,6 +5,7 @@ import com.carol.food.domain.repository.FormaPagamentoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository {
     @Override
     public void remover(Long id) {
         FormaPagamento formaPagamento = buscar(id);
+
+        if (formaPagamento == null){
+            throw new EmptyResultDataAccessException(1);
+        }
+
         manager.remove(formaPagamento);
     }
 }

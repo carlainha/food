@@ -1,5 +1,7 @@
 package com.carol.food.api.controller;
 
+import com.carol.food.domain.exception.EntidadeEmUsoException;
+import com.carol.food.domain.exception.EntidadeNaoEncontradaException;
 import com.carol.food.domain.model.Estado;
 import com.carol.food.domain.repository.EstadoRepository;
 import com.carol.food.domain.service.EstadoService;
@@ -54,5 +56,19 @@ public class EstadoController {
             return ResponseEntity.ok(estadoAtual);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{estadoId}")
+    public ResponseEntity<Estado> remover (@PathVariable Long estadoId){
+        try {
+            estadoService.excluir(estadoId);
+            return ResponseEntity.notFound().build();
+        }
+        catch (EntidadeNaoEncontradaException e){
+            return ResponseEntity.notFound().build();
+        }
+        catch (EntidadeEmUsoException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 }
