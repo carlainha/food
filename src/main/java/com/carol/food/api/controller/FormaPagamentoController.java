@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/formapagamentos")
@@ -26,35 +27,35 @@ public class FormaPagamentoController {
 
     @GetMapping
     public List<FormaPagamento> listar(){
-        return  formaPagamentoRepository.listar();
+        return  formaPagamentoRepository.findAll();
     }
 
     @GetMapping("/{formapagamentoId}")
     public ResponseEntity<FormaPagamento> buscar(@PathVariable Long formapagamentoId){
-        FormaPagamento formaPagamento = formaPagamentoRepository.buscar(formapagamentoId);
+        Optional<FormaPagamento> formaPagamento = formaPagamentoRepository.findById(formapagamentoId);
 
-        if (formaPagamento != null){
-            return ResponseEntity.ok(formaPagamento);
+        if (formaPagamento.isPresent()){
+            return ResponseEntity.ok(formaPagamento.get());
         }
 
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public FormaPagamento adicionar(@RequestBody FormaPagamento formaPagamento){
-        return formaPagamentoService.salvar(formaPagamento);
+    public ResponseEntity<FormaPagamento> adicionar(@RequestBody FormaPagamento formaPagamento){
+        formaPagamento = formaPagamentoService.salvar(formaPagamento);
+        return ResponseEntity.status(HttpStatus.CREATED).body(formaPagamento);
     }
 
     @PutMapping("/{formapagamentoId}")
     public ResponseEntity<FormaPagamento> atualizar(@PathVariable Long formapagamentoId,@RequestBody FormaPagamento formaPagamento){
-        FormaPagamento formaPagamentoAtual = formaPagamentoRepository.buscar(formapagamentoId);
+        Optional<FormaPagamento> formaPagamentoAtual = formaPagamentoRepository.findById(formapagamentoId);
 
-        if (formaPagamentoAtual != null){
+        if (formaPagamentoAtual.isPresent()){
             BeanUtils.copyProperties(formaPagamento, formaPagamentoAtual,"id");
 
-            formaPagamentoAtual = formaPagamentoService.salvar(formaPagamentoAtual);
-            return ResponseEntity.ok(formaPagamentoAtual);
+            FormaPagamento formaPagamentoSalvo = formaPagamentoService.salvar(formaPagamentoAtual.get());
+            return ResponseEntity.ok(formaPagamentoSalvo);
         }
         return ResponseEntity.notFound().build();
     }
