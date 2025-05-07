@@ -1,5 +1,8 @@
 package com.carol.food.api.controller;
 
+import com.carol.food.domain.exception.EntidadeEmUsoException;
+import com.carol.food.domain.exception.EntidadeNaoEncontradaException;
+import com.carol.food.domain.model.Cozinha;
 import com.carol.food.domain.model.FormaPagamento;
 import com.carol.food.domain.repository.FormaPagamentoRepository;
 import com.carol.food.domain.service.FormaPagamentoService;
@@ -54,5 +57,20 @@ public class FormaPagamentoController {
             return ResponseEntity.ok(formaPagamentoAtual);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{formapagamentoId}")
+    public ResponseEntity<Cozinha> remover(@PathVariable Long formapagamentoId) {
+        try{
+            formaPagamentoService.excluir(formapagamentoId);
+            return ResponseEntity.notFound().build();
+        }
+        catch (EntidadeNaoEncontradaException e){
+            return ResponseEntity.notFound().build();
+        }
+        catch (EntidadeEmUsoException e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
     }
 }
