@@ -8,6 +8,8 @@ insert into tb_estado(nome) values ('São Paulo');
 insert into tb_estado(nome) values ('Minas Gerais');
 insert into tb_estado(nome) values ('Rio de Janeiro');
 
+insert into tb_cidade(nome,estado_id) values ('Lençóis Paulista', 1);
+
 insert into tb_formapagamento(descricaoforma) values ('Debito');
 insert into tb_formapagamento(descricaoforma) values ('Credito');
 insert into tb_formapagamento(descricaoforma) values ('Pix');

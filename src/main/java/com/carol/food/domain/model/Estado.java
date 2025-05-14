@@ -15,5 +15,6 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome_estado", length = 70)
     private String nome;
 }

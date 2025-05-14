@@ -1,5 +1,6 @@
 package com.carol.food.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,11 +18,14 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "nome_restaurante", length = 70)
     private String nome;
 
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
+
     @ManyToOne
+    @JoinColumn(name = "cozinha_id")
     private Cozinha cozinha;
 }
