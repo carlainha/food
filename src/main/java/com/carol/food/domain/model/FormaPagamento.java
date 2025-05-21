@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "tb_formapagamento")
+@Table(name = "tb_forma_pagamento")
 public class FormaPagamento {
 
     @EqualsAndHashCode.Include
@@ -15,6 +15,6 @@ public class FormaPagamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "descricaoforma", length = 100)
+    @Column(name = "descricao", length = 60)
     private String descricao;
 }
