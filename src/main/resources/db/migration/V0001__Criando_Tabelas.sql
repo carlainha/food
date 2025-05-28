@@ -50,7 +50,7 @@ create table tb_permissao(
 )engine=InnoDB default charset=utf8;
 
 create table tb_produto(
-    id bigint not null auto_increment
+    id bigint not null auto_increment,
     restaurante_id bigint not null,
     nome varchar(80) not null,
     descricao text not null,
@@ -79,7 +79,7 @@ create table tb_restaurante(
 ) engine=InnoDB default charset=utf8;
 
 create table tb_restaurante_forma_pagamento(
-    restaurante_id bigint not null
+    restaurante_id bigint not null,
     forma_pagamento_id bigint not null,
 
     primary key(restaurante_id,forma_pagamento_id)
@@ -101,4 +101,3 @@ create table tb_usuario_grupo (
 
     primary key(usuario_id,grupo_id)
 )engine=InnoDB default charset=utf8;
-

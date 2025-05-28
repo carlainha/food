@@ -19,10 +19,10 @@ foreign key (forma_pagamento_id) references tb_forma_pagamento(id);
 alter table tb_restaurante_forma_pagamento add constraint fk_rest_forma_pagto_restaurante
 foreign key (restaurante_id) references tb_restaurante(id);
 
-alter table tb_usuario_grupo add fk_usuario_grupo_grupo
+alter table tb_usuario_grupo add constraint fk_usuario_grupo_grupo
 foreign key(grupo_id) references tb_grupo(id);
 
-alter table tb_usuario_grupo add fk_usuario_grupo_usuario
+alter table tb_usuario_grupo add constraint fk_usuario_grupo_usuario
 foreign key(grupo_id) references tb_usuario(id);
 
 alter table tb_cidade add constraint fk_cidade_estado
