@@ -2,6 +2,9 @@ package com.carol.food.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,9 +24,12 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @PositiveOrZero(message = "A taxa de frete deve ser zero ou um valor positivo!")
+    @NotBlank(message = "O nome do restaurante é obrigatório!")
     @Column(name = "nome", length = 80)
     private String nome;
 
+    @NotNull(message = "A taxa de frete é obrigatória!")
     @Column(name = "taxa_frete")
     private BigDecimal taxaFrete;
 
@@ -37,6 +43,7 @@ public class Restaurante {
 
     @ManyToOne
     private Cozinha cozinha;
+
 
     @Embedded
     private Endereco endereco;
